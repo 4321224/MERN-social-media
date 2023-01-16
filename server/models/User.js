@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const UserSchema = new mongoose.Schema(
   {
     firstName: {
-      type: Strung,
+      type: String,
       required: true,
       min: 5,
       max: 50,
@@ -35,7 +35,7 @@ const UserSchema = new mongoose.Schema(
     location: String,
     occupation: String,
     viewed: Number,
-    impressions: Nummber,
+    impressions: Number,
   },
   {
     timestamps: true,

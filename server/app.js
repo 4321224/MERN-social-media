@@ -8,9 +8,9 @@ import helmet from "helmet";
 import morgan from "morgan";
 import path from "path";
 import { fileURLToPath } from "url";
-import { verifyToken } from "./middleware/auth";
+import { verifyToken } from "./middleware/auth.js";
 import postRouter from "./routes/post.js";
-import { createPost } from "./controllers/postController";
+import { createPost } from "./controllers/postController.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -23,7 +23,18 @@ app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(morgan("common"));
 app.use(bodyParser.json({ limit: "20mb", extends: true }));
 app.use(bodyParser.urlencoded({ limit: "20mb", extended: true }));
+app.use("/assets", express.static(path.join(__dirname, "public/assets")));
 
+
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, "public/assets")
+    },
+    filename: function(req, file, cb) {
+        cb(null, file.originalname)
+    }
+})
+const upload = multer({storage})
 app.post("/posts", verifyToken, upload.single("picture"), createPost);
 
 app.use("/post", postRouter);
