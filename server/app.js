@@ -8,6 +8,9 @@ import helmet from "helmet";
 import morgan from "morgan";
 import path from "path";
 import { fileURLToPath } from "url";
+import { verifyToken } from "./middleware/auth";
+import postRouter from "./routes/post.js";
+import { createPost } from "./controllers/postController";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -20,6 +23,10 @@ app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(morgan("common"));
 app.use(bodyParser.json({ limit: "20mb", extends: true }));
 app.use(bodyParser.urlencoded({ limit: "20mb", extended: true }));
+
+app.post("/posts", verifyToken, upload.single("picture"), createPost);
+
+app.use("/post", postRouter);
 
 mongoose.set("strictQuery", false);
 const PORT = process.env.PORT || 8080;
