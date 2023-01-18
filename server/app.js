@@ -12,6 +12,7 @@ import { verifyToken } from "./middleware/auth.js";
 import postRouter from "./routes/post.js";
 import loginRouter from "./routes/login.js";
 import { createPost } from "./controllers/postController.js";
+import { register } from "./controllers/loginController.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -35,6 +36,7 @@ const storage = multer.diskStorage({
   },
 });
 const upload = multer({ storage });
+app.post("/login/register", upload.single("picture"), register);
 app.post("/posts", verifyToken, upload.single("picture"), createPost);
 
 app.use("/login", loginRouter);
