@@ -10,6 +10,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { verifyToken } from "./middleware/auth.js";
 import postRouter from "./routes/post.js";
+import loginRouter from "./routes/login.js";
 import { createPost } from "./controllers/postController.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -36,6 +37,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 app.post("/posts", verifyToken, upload.single("picture"), createPost);
 
+app.use("/login", loginRouter);
 app.use("/post", postRouter);
 
 mongoose.set("strictQuery", false);

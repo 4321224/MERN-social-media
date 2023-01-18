@@ -1,8 +1,8 @@
 import bcrypt from "bcrypt";
-import jwt, { sign } from "jsonwebtoken";
-import User from "../models/User";
+import jwt from "jsonwebtoken";
+import User from "../models/User.js";
 
-const register = async (req, res) => {
+export const register = async (req, res) => {
   try {
     const {
       firstName,
@@ -36,7 +36,7 @@ const register = async (req, res) => {
   }
 };
 
-const login = async (req, res) => {
+export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
@@ -52,5 +52,3 @@ const login = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-
-export default { register, login };
