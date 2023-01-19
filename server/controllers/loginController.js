@@ -15,7 +15,7 @@ export const register = async (req, res) => {
       occupation,
     } = req.body;
     const salt = await bcrypt.genSalt();
-    const hashPassword = await bcrypt(password, salt);
+    const hashPassword = await bcrypt.hash(password, salt);
 
     const users = new User({
       firstName,
@@ -41,8 +41,8 @@ export const login = async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
     if (!user) return res.status(401).json({ message: "User not found" });
-
-    const isMatch = await bcrypt.compare(user.password, password);
+    // console.log(user.password, "<<<<");
+    const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch)
       return res.status(401).json({ message: "Invalid Username or Password" });
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
