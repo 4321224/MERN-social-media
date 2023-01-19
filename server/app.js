@@ -13,6 +13,8 @@ import postRouter from "./routes/post.js";
 import loginRouter from "./routes/login.js";
 import { createPost } from "./controllers/postController.js";
 import { register } from "./controllers/loginController.js";
+import User from "./models/User.js";
+import { users } from "./data/data.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -51,5 +53,7 @@ mongoose
   })
   .then(() => {
     app.listen(PORT, () => console.log(`Server Port: ${PORT}`));
+    // add data just one time
+    // User.insertMany(users);
   })
   .catch((error) => console.log(`${error} did not connect`));
