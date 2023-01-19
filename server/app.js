@@ -14,7 +14,7 @@ import loginRouter from "./routes/login.js";
 import { createPost } from "./controllers/postController.js";
 import { register } from "./controllers/loginController.js";
 import User from "./models/User.js";
-import { users } from "./data/data.js";
+import { users } from "./data.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

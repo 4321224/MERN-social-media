@@ -42,13 +42,14 @@ export const login = async (req, res) => {
     const user = await User.findOne({ email });
     if (!user) return res.status(401).json({ message: "User not found" });
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(user.password, password);
     if (!isMatch)
       return res.status(401).json({ message: "Invalid Username or Password" });
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
     delete user.password;
     res.status(200).json({ token, user });
   } catch (error) {
+    console.log(error, "ini errornya");
     res.status(500).json({ error: error.message });
   }
 };
